@@ -75,13 +75,16 @@ public:
     void show_data();
     void scan();
     void show_objects();
-    void filter_objects(int dmin = 250, int dmax = 2000,int nb_points_min = 2);
+    void filter_objects(int dmin = 150, int dmax = 2000,int nb_points_min = 2);
     void calcul_speed();
     void show_objects_filtered();
     void plot();
     void plot_biggest();
     void plot_closest();
     void order_by(char16_t methode = 'd');
+
+    void send_distance_foward();//send the distance of the closest object foward()
+    void send_distance_backward();//send the distance of the closest object backward()
     
 private:
     object_data current_obj;

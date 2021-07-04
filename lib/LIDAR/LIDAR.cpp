@@ -247,7 +247,7 @@ void LIDAR::calcul_speed(){
     for (int i=0; i<nb_objects_max_filtered;i++){
         for (int j=0; j<nb_objects_max_filtered;j++){
             float d = dist(list_object_filtered[i],list_object_filtered_prev[j]);
-            if (d<100){
+            if (d<100){//if an object is close to a previous one, asume they are the same
                 list_object_filtered[i].speed = list_object_filtered[i].CG-list_object_filtered_prev[j].CG;
             }
 
@@ -330,6 +330,7 @@ void LIDAR::order_by(char16_t methode){
 
     if (methode == 'd')
     {
+        //order by distance
         point O;
         int distances[nb_objects_max_filtered];
         for (int i; i<nb_objects_max_filtered; i ++){
@@ -351,4 +352,43 @@ void LIDAR::order_by(char16_t methode){
             }
         }
     }
+    if (methode == 'a')
+    {
+        //order by angle
+    }
+}
+
+
+void LIDAR::send_distance_foward(){
+    float coneAngle = 45;
+    obj ob = new obj;
+    ob.CG.x = 9999;//set the object far
+
+    for (int i = 0; i< nb_objects_max_filtered ; i++)
+    {
+        if(dist(ob)>dist(list_object_filtered[i]) && dist(list_object_filtered[i])>1 && abs(angle_deg(ob)-180)>(180-coneAngle){//weird because angle from 0 to 360
+            ob=list_object_filtered[i];
+        }
+        
+    }
+    serial_com -> print("f");
+    serial_com -> print(dist(ob));//if no object detected, sen default value of 9999
+    serial_com -> print("/n");
+}
+
+void LIDAR::send_distance_backward(){
+    float coneAngle = 45;
+    obj ob = new obj;
+    ob.CG.x = 9999;//set the object far
+    
+    for (int i = 0; i< nb_objects_max_filtered ; i++)
+    {
+        if(dist(ob)>dist(list_object_filtered[i]) && dist(list_object_filtered[i])>1 && abs(angle_deg(ob)-180)<coneAngle ){
+            ob=list_object_filtered[i];
+        }
+        
+    }
+    serial_com -> print("b");
+    serial_com -> print(dist(ob));//if no object detected, sen default value of 9999
+    serial_com -> print("/n");
 }

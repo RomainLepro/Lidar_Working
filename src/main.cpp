@@ -29,4 +29,7 @@ void loop() {
   //lid.plot();
   lid.plot_biggest();
   lid.plot_closest();
+
+  lid.send_distance_foward();
+  lid.send_distance_backward();
 }
