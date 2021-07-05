@@ -19,7 +19,7 @@ void setup() {
 }
 
 void loop() {
-  
+  Serial.println("test");
   for(int i = 0;i < 500;i++){
     lid.scan();
   };

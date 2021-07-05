@@ -361,15 +361,14 @@ void LIDAR::order_by(char16_t methode){
 
 void LIDAR::send_distance_foward(){
     float coneAngle = 45;
-    obj ob = new obj;
+    obj ob = obj();
     ob.CG.x = 9999;//set the object far
 
     for (int i = 0; i< nb_objects_max_filtered ; i++)
     {
-        if(dist(ob)>dist(list_object_filtered[i]) && dist(list_object_filtered[i])>1 && abs(angle_deg(ob)-180)>(180-coneAngle){//weird because angle from 0 to 360
+        if(dist(ob)>dist(list_object_filtered[i]) && dist(list_object_filtered[i])>1 && abs(angle_deg(ob)-180)>(180-coneAngle)){//weird because angle from 0 to 360
             ob=list_object_filtered[i];
         }
-        
     }
     serial_com -> print("f");
     serial_com -> print(dist(ob));//if no object detected, sen default value of 9999
@@ -378,7 +377,7 @@ void LIDAR::send_distance_foward(){
 
 void LIDAR::send_distance_backward(){
     float coneAngle = 45;
-    obj ob = new obj;
+    obj ob = obj();
     ob.CG.x = 9999;//set the object far
     
     for (int i = 0; i< nb_objects_max_filtered ; i++)
