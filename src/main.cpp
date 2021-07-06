@@ -2,7 +2,7 @@
 #include <RPLidar.h>
 #include <Arduino.h>
 #include <LIDAR.h>
-
+#include <analogWrite.h>
 
 LIDAR lid;
 
@@ -14,8 +14,6 @@ void setup() {
   lid.init_com(Serial);
   lid.begin(Serial1);
   lid.init(Serial1);
-
-  
 }
 
 void loop() {
@@ -29,7 +27,6 @@ void loop() {
   //lid.plot();
   lid.plot_biggest();
   lid.plot_closest();
-
   lid.send_distance_foward();
   lid.send_distance_backward();
 }

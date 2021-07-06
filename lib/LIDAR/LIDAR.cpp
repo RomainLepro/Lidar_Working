@@ -1,7 +1,7 @@
 #include "LIDAR.h"
 #include "Arduino.h"
 #include "RPLidar.h"
-
+#include <analogWrite.h>
 //au lieu de stocket tous les objets (qui eux meme stocks les points)
 //juste stocker leur cg
 #define pi 3.1415

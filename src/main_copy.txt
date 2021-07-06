@@ -1,0 +1,39 @@
+// This sketch code is based on the RPLIDAR driver library provided by RoboPeak
+#include <RPLidar.h>
+#include <Arduino.h>
+#include <LIDAR.h>
+
+LIDAR lid;
+Stream *SerialPort;
+String readString;
+int rangeAdversaryFoward,rangeAdversaryBackward;
+void setup()
+{
+  Stream *SerialPort = &Serial1;
+}
+
+void loop()
+{
+  while (SerialPort->available())
+  {
+    char c = SerialPort->read();
+    if (c != '\n')
+    {
+      readString += c;
+    }
+    else
+    {
+      if (readString[0] == 'f')
+      {
+        readString.remove(0);
+        rangeAdversaryFoward = readString.toInt();
+      }
+      else if (readString[0] == 'b')
+      {
+        readString.remove(0);
+        rangeAdversaryBackward = readString.toInt();
+      }
+      readString = "";
+    }
+  }
+}
