@@ -17,16 +17,15 @@ void setup() {
 }
 
 void loop() {
-  Serial.println("test");
-  for(int i = 0;i < 500;i++){
+  for(int i = 0;i < 300;i++){
     lid.scan();
   };
   lid.filter_objects();
-  lid.calcul_speed();
+  //lid.calcul_speed();
   //lid.show_objects_filtered();
   //lid.plot();
-  lid.plot_biggest();
-  lid.plot_closest();
+  //lid.plot_biggest();
+  //lid.plot_closest();
   lid.send_distance_foward();
   lid.send_distance_backward();
 }

@@ -15,8 +15,8 @@
 #include "RPLidar.h"
 
 const uint8_t nb_points_max = 40;
-const uint8_t nb_objects_max = 100;
-const uint8_t nb_objects_max_filtered = 10;
+const uint16_t nb_objects_max = 120;
+const uint8_t nb_objects_max_filtered = 40;
 
 struct point
 {
@@ -75,7 +75,7 @@ public:
     void show_data();
     void scan();
     void show_objects();
-    void filter_objects(int dmin = 150, int dmax = 2000,int nb_points_min = 2);
+    void filter_objects(int dmin = 50, int dmax = 2000,int nb_points_min = 2);
     void calcul_speed();
     void show_objects_filtered();
     void plot();
@@ -92,6 +92,10 @@ private:
     obj list_object_filtered_prev[nb_objects_max_filtered];
     obj list_object_filtered[nb_objects_max_filtered];
     obj list_object_ordered[nb_objects_max_filtered];
+
+    float prevDistForward = 0.0;
+    float prevDistBackward = 0.0;
+
     uint16_t index = 0;
     uint16_t index_filtered = 0;
     uint16_t index_ordered = 0;

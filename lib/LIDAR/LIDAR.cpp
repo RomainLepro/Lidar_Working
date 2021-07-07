@@ -232,7 +232,7 @@ void LIDAR::filter_objects(int dmin, int dmax, int nb_points_min){
         list_object_filtered[i] = empty_object;
     }
     for (int i=0; i<nb_objects_max;i++){
-        if (dmin<dist(O,list_object[i].CG) && dist(O,list_object[i].CG)<dmax && list_object[i].nbpoint>nb_points_min && t-list_object[i].time<300)
+        if (dmin<dist(O,list_object[i].CG) && dist(O,list_object[i].CG)<dmax && list_object[i].nbpoint>=nb_points_min && t-list_object[i].time<300)
         {
             list_object_filtered[index_filtered] = list_object[i];
             index_filtered++;
@@ -360,34 +360,40 @@ void LIDAR::order_by(char16_t methode){
 
 
 void LIDAR::send_distance_foward(){
-    float coneAngle = 45;
+    float coneAngle = 60;
     obj ob = obj();
     ob.CG.x = 9999;//set the object far
 
     for (int i = 0; i< nb_objects_max_filtered ; i++)
     {
-        if(dist(ob)>dist(list_object_filtered[i]) && dist(list_object_filtered[i])>1 && abs(angle_deg(ob)-180)>(180-coneAngle)){//weird because angle from 0 to 360
-            ob=list_object_filtered[i];
+        if(dist(ob)>dist(list_object_filtered[i]) && dist(list_object_filtered[i])>1){
+            if(abs(angle_deg(list_object_filtered[i]))<coneAngle)
+            {ob=list_object_filtered[i];}
         }
     }
     serial_com -> print("f");
-    serial_com -> print(dist(ob));//if no object detected, sen default value of 9999
-    serial_com -> print("/n");
+    serial_com -> print(min(dist(ob),prevDistForward));//if no object detected, sen default value of 9999
+    serial_com -> print("\n");
+    prevDistForward = dist(ob);
+    //Serial.println(angle_deg(ob));
+
 }
 
 void LIDAR::send_distance_backward(){
-    float coneAngle = 45;
+    float coneAngle = 60;
     obj ob = obj();
     ob.CG.x = 9999;//set the object far
     
     for (int i = 0; i< nb_objects_max_filtered ; i++)
     {
-        if(dist(ob)>dist(list_object_filtered[i]) && dist(list_object_filtered[i])>1 && abs(angle_deg(ob)-180)<coneAngle ){
-            ob=list_object_filtered[i];
+        if(dist(ob)>dist(list_object_filtered[i]) && dist(list_object_filtered[i])>1){
+            if(abs(angle_deg(list_object_filtered[i]))>(180-coneAngle))
+            {ob=list_object_filtered[i];}
         }
-        
     }
     serial_com -> print("b");
-    serial_com -> print(dist(ob));//if no object detected, sen default value of 9999
-    serial_com -> print("/n");
+    serial_com -> print(min(dist(ob),prevDistBackward));//if no object detected, sen default value of 9999
+    serial_com -> print("\n");
+    prevDistBackward = dist(ob);
+    //Serial.println(angle_deg(ob));
 }
